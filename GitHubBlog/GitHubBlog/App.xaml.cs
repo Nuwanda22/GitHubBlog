@@ -13,7 +13,7 @@ namespace GitHubBlog
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new PostListPage());
         }
 
         protected override void OnStart()

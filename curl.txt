@@ -1,3 +1,0 @@
-curl -i -X PUT -H 'Authorization: token aa67fda2d3ad01095758c88029051e97b3fa3f1e' \
--d '{"path": "_posts/2016-11-26-title.md", "message": "posted by github api", "committer": { "name": "Kyle John","email": "njk230@gmail.com"},"content": "bXkgbmV3IGZpbGUgY29udGVudHM=", "branch": "master"}' \
-https://api.github.com/repos/Nuwanda22/nuwanda22.github.io/contents/_posts/2016-11-26-title.md

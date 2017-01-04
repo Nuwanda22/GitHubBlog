@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="GitHubBlog.PostListPage"
+			 Appearing="ContentPage_Appearing">
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Post"
+					 Clicked="ToolbarItem_Clicked" />
+	</ContentPage.ToolbarItems>
+
+	<Grid>
+		<ListView x:Name="PostListView"
+				  ItemSelected="PostListView_ItemSelected"
+				  IsPullToRefreshEnabled="True"
+				  Refreshing="PostListView_Refreshing">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<TextCell Text="{Binding Title}">
+						<TextCell.ContextActions>
+							<MenuItem Text="Edit"
+									  Clicked="MenuItem_Clicked"
+									  CommandParameter="{Binding .}"/>
+							<MenuItem Text="Delete"
+									  Clicked="MenuItem_Clicked"
+									  CommandParameter="{Binding .}" />
+						</TextCell.ContextActions>
+					</TextCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+		<ActivityIndicator x:Name="Loading"
+						   Color="Gray"
+						   Scale="0.1" />
+	</Grid>
+
+</ContentPage>
