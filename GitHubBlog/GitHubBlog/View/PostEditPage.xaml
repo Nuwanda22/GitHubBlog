@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+			xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			x:Class="GitHubBlog.PostEditPage"
+			xmlns:local="clr-namespace:GitHubBlog;assembly=GitHubBlog"
+			Title="TabbedPage">
+
+	<local:EditPage x:Name="EditingPage">
+		<x:Arguments>
+			<x:Boolean>True</x:Boolean>
+		</x:Arguments>
+	</local:EditPage>
+
+	<ContentPage Title="Priview">
+		<Grid>
+			<WebView x:Name="Previewer"
+					 VerticalOptions="FillAndExpand" />
+		</Grid>
+	</ContentPage>
+	
+</TabbedPage>

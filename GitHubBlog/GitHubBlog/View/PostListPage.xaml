@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 x:Class="GitHubBlog.PostListPage"
-			 Appearing="ContentPage_Appearing">
+			 Title="nuwanda22.github.io TODO">
 
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Text="Post"
@@ -13,26 +13,53 @@
 		<ListView x:Name="PostListView"
 				  ItemSelected="PostListView_ItemSelected"
 				  IsPullToRefreshEnabled="True"
-				  Refreshing="PostListView_Refreshing">
+				  Refreshing="PostListView_Refreshing"
+				  RowHeight="70">
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<TextCell Text="{Binding Title}">
-						<TextCell.ContextActions>
+					<ViewCell>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="1*" />
+								<RowDefinition Height="1*" />
+							</Grid.RowDefinitions>
+							
+							<Label Text="{Binding Title}"
+								   TextColor="Black"
+								   FontSize="Medium"
+								   FontAttributes="Bold"
+								   Grid.Row="0"
+								   Margin="10,5,0,0"/>
+							<Label Text="{Binding Date, StringFormat='{0:yyyy-MM-dd}'}"
+								   TextColor="Black"
+								   Grid.Row="1"
+								   Margin="10,0,0,0" />
+						</Grid>
+						
+						<ViewCell.ContextActions>
 							<MenuItem Text="Edit"
 									  Clicked="MenuItem_Clicked"
-									  CommandParameter="{Binding .}"/>
+									  CommandParameter="{Binding .}" />
 							<MenuItem Text="Delete"
 									  Clicked="MenuItem_Clicked"
 									  CommandParameter="{Binding .}" />
-						</TextCell.ContextActions>
-					</TextCell>
+						</ViewCell.ContextActions>
+					</ViewCell>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
 
-		<ActivityIndicator x:Name="Loading"
+		<ActivityIndicator x:Name="Indicator"
 						   Color="Gray"
-						   Scale="0.1" />
+						   Scale="0.1"
+						   IsRunning="True" />
+
+		<Label x:Name="StatusLabel"
+			   Text="No Internet"
+			   HorizontalOptions="Center"
+			   VerticalOptions="Center"
+			   FontSize="Large"
+			   FontAttributes="Bold" />
 	</Grid>
 
 </ContentPage>

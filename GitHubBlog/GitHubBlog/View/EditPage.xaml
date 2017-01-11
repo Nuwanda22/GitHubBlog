@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:local="clr-namespace:GitHubBlog"
+			 x:Class="GitHubBlog.EditPage"
+			 BackgroundColor="White"
+			 Title="Edit">
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Send"
+					 Clicked="SendToolbarItem_Clicked" />
+	</ContentPage.ToolbarItems>
+
+	<StackLayout>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+
+			<Entry x:Name="TitleEntry"
+				   Placeholder="Title" 
+				   Grid.Row="0" />
+			<Entry x:Name="SubTitleEntry"
+				   Placeholder="English Title"
+				   Grid.Row="1" />
+		</Grid>
+
+		<Editor x:Name="ContentEditor"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="FillAndExpand" />
+	</StackLayout>
+
+</ContentPage>
