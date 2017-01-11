@@ -41,17 +41,11 @@
     </Compile>
     <Compile Include="Class\HttpResult.cs" />
     <Compile Include="Class\Post.cs" />
-    <Compile Include="LoadingPopupPage.xaml.cs">
-      <DependentUpon>LoadingPopupPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LoginPage.xaml.cs">
+    <Compile Include="View\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginPopupPage.xaml.cs">
+    <Compile Include="View\LoginPopupPage.xaml.cs">
       <DependentUpon>LoginPopupPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LoginSuccessPopupPage.xaml.cs">
-      <DependentUpon>LoginSuccessPopupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PostEditPage.xaml.cs">
       <DependentUpon>PostEditPage.xaml</DependentUpon>
@@ -151,25 +145,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LoginPage.xaml">
+    <EmbeddedResource Include="View\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LoginPopupPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="LoadingPopupPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="LoginSuccessPopupPage.xaml">
+    <EmbeddedResource Include="View\LoginPopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
