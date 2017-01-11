@@ -7,28 +7,37 @@ using Xamarin.Forms;
 
 namespace GitHubBlog
 {
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
+	public partial class App : Application
+	{
+		public App()
+		{
+			InitializeComponent();
 
-			MainPage = new LoginPage();
+			// 이전에 로그인하여 토큰을 저장했다면 메인 페이지를 띄운다.
+			if (Properties.ContainsKey("token"))
+			{
+				MainPage = new PostListPage();
+			}
+			// 그게 아니라면 로그인 페이지를 띄운다.
+			else
+			{
+				MainPage = new LoginPage();
+			}
 		}
 
-        protected override void OnStart()
-        {
-            // Handle when your app starts
-        }
+		protected override void OnStart()
+		{
+			// Handle when your app starts
+		}
 
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
+		protected override void OnSleep()
+		{
+			// Handle when your app sleeps
+		}
 
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
-        }
-    }
+		protected override void OnResume()
+		{
+			// Handle when your app resumes
+		}
+	}
 }

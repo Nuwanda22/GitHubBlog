@@ -10,13 +10,12 @@ namespace GitHubBlog
 {
 	static class RestAPI
 	{
-		public static string Key { get; set; }
-
-		public static async Task<HttpResult> GetAsync(string url, Dictionary<string,string> headers = null)
+		public static async Task<HttpResult> GetAsync(string url, Dictionary<string,string> headers = null, string token = null)
 		{
 			using (HttpClient client = new HttpClient())
 			{
 				client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "GitHub-Blog-App");
+				if(token != null) client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
 				if (headers != null) foreach (var header in headers)
 				{
 					client.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);

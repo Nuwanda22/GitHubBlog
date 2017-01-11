@@ -16,8 +16,8 @@ namespace GitHubBlog
 {
 	public partial class PostListPage : ContentPage
 	{
+		bool isFirstTry = true;
 		ObservableCollection<Post> PostCollection;
-		bool isFirst = true;
 
 		public PostListPage()
 		{
@@ -36,37 +36,126 @@ namespace GitHubBlog
 		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
-			
-			if(CrossConnectivity.Current.IsConnected && isFirst)
+
+			// 인터넷에 연결되어 있고 첫번째라면
+			if (CrossConnectivity.Current.IsConnected && isFirstTry)
 			{
+				// 인터넷 연결이 되지 않음 창을 숨기고
 				StatusLabel.IsVisible = false;
 
+				// 글 목록 초기화 후 받아온다.
 				PostCollection.Clear();
-				await Load(PostCollection);
+				await PostCollection.Load("Nuwanda22", "nuwanda22.github.io");
 
+				// 글 목록을 다 받아오면 로딩 창을 숨긴다.
 				Indicator.IsVisible = false;
 				Indicator.IsRunning = false;
 
-				isFirst = false;
+				// 이제 첫번째 아님
+				isFirstTry = false;
 			}
-			else if(!CrossConnectivity.Current.IsConnected)
+			// 인터넷에 연결되지 않았다면
+			else if (!CrossConnectivity.Current.IsConnected)
 			{
+				// 로딩 창을 숨긴다.
 				Indicator.IsVisible = false;
 				Indicator.IsRunning = false;
 			}
 		}
 
-		private async Task<bool> Load(Collection<Post> collection)
+		private async void PostToolbarItem_Clicked(object sender, EventArgs e)
+		{
+			// 글 작성 페이지를 띄움
+			await Navigation.PushAsync(new PostEditPage(true));
+		}
+
+		private async void PostListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			// 선택 없애기
+			(sender as ListView).SelectedItem = null;
+
+			// 글이 선택되었다면 글 페이지를 띄움
+			if (e.SelectedItem != null)
+			{
+				await Navigation.PushAsync(new PostPage(e.SelectedItem as Post));
+			}
+		}
+
+		private async void MenuItem_Clicked(object sender, EventArgs e)
+		{
+			// 버튼과 글 객체를 받음
+			var item = sender as MenuItem;
+			var param = item.CommandParameter as Post;
+
+			// 수정 버튼이면
+			if (item.Text == "Edit")
+			{
+				// 수정 페이지를 띄운다.
+				await Navigation.PushAsync(new PostEditPage(false));
+			}
+			// 삭제 버튼이면
+			else if (item.Text == "Delete")
+			{
+				// 삭제 여부 확인 후 삭제를 원하면
+				if (await DisplayAlert("", "Do you really want to delete it?", "Yes", "No"))
+				{
+					// 삭제 요청
+					var result = await RestAPI.DeleteAsync("https://api.github.com/repos/Nuwanda22/nuwanda22.github.io/contents/_posts/" + param.FileName,
+					JsonConvert.SerializeObject(new
+					{
+						path = "_posts/" + param.FileName,
+						message = "Deleted " + param.FileName,
+						sha = param.SHA
+					}), App.Current.Properties["token"] as string);
+
+					// 요청 성공 시 삭제됨을 표시
+					if (result.IsSuccess)
+					{
+						await DisplayAlert("", "It has been deleted.", "OK");
+						// TODO: Refresh PostListView
+					}
+					// 실패 시 실패함을 표시
+					else
+					{
+						await DisplayAlert("An error has occurred.", "Please try again.", "OK");
+					}
+				}
+			}
+		}
+
+		private async void PostListView_Refreshing(object sender, EventArgs e)
+		{
+			// 새로 고침시 글 목록 초기화 후 다시 불러옴
+			PostCollection.Clear();
+			await PostCollection.Load("Nuwanda22", "nuwanda22.github.io");
+
+			// 새로 고침 종료
+			PostListView.IsRefreshing = false;
+		}
+	}
+
+	static partial class Extension
+	{
+		public static string ToFirtCharUpper(this string input)
+		{
+			if (string.IsNullOrEmpty(input))
+			{
+				throw new ArgumentNullException(nameof(input), "This string argument is null or empty.");
+			}
+
+			return input[0].ToString().ToUpper() + input.Substring(1);
+		}
+
+		public static async Task<bool> Load(this Collection<Post> collection, string user, string repo)
 		{
 			// API를 통해 글 목록 정보가 담긴 json을 받음
-			HttpResult result = await RestAPI.GetAsync("https://api.github.com/repos/Nuwanda22/nuwanda22.github.io/contents/_posts/");
-			
+			HttpResult result = await RestAPI.GetAsync($"https://api.github.com/repos/{user}/{repo}/contents/_posts/");
+
 			// 성공일 경우
-			if(result.IsSuccess)
+			if (result.IsSuccess)
 			{
-				// json을 파싱하여 글 목록을 만들고
-				JArray array = JArray.Parse(result.Result);
-				foreach (var item in array.Reverse())
+				// json을 파싱하여 글 목록을 만들고 (날짜 역순)
+				foreach (var item in JArray.Parse(result.Result).Reverse())
 				{
 					// 글 하나의 파일 이름 추출 후
 					string fileName = item["name"].Value<string>();
@@ -87,76 +176,6 @@ namespace GitHubBlog
 
 			// API의 성공 여부를 리턴함
 			return result.IsSuccess;
-		}
-		
-		private async void ToolbarItem_Clicked(object sender, EventArgs e)
-		{
-			await Navigation.PushAsync(/*new EditPage(true)*/new PostEditPage());
-		}
-		
-		private async void PostListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-		{
-			(sender as ListView).SelectedItem = null;
-
-			if (e.SelectedItem != null)
-			{
-				await Navigation.PushAsync(new PostPage(e.SelectedItem as Post));
-			}
-		}
-
-		private async void MenuItem_Clicked(object sender, EventArgs e)
-		{
-			var item = sender as MenuItem;
-			var param = item.CommandParameter as Post;
-			
-			if(item.Text == "Edit")
-			{
-				await Navigation.PushAsync(new EditPage(false));
-			}
-			else if(item.Text == "Delete")
-			{
-				if(await DisplayAlert("", "Do you really want to delete it?", "Yes", "No"))
-				{
-					var result = await RestAPI.DeleteAsync("https://api.github.com/repos/Nuwanda22/nuwanda22.github.io/contents/_posts/" + param.FileName,
-					JsonConvert.SerializeObject(new
-					{
-						path = "_posts/" + param.FileName,
-						message = "Deleted " + param.FileName,
-						sha = param.SHA
-					}), RestAPI.Key);
-
-					if(result.IsSuccess)
-					{
-						await DisplayAlert("", "It has been deleted.", "OK");
-						// TODO: Refresh PostListView
-					}
-					else
-					{
-						await DisplayAlert("An error has occurred.", "Please try again.", "OK");
-					}
-				}
-			}
-		}
-
-		private async void PostListView_Refreshing(object sender, EventArgs e)
-		{
-			PostCollection.Clear();
-			await Load(PostCollection);
-
-			PostListView.IsRefreshing = false;
-		}
-	}
-
-	public static partial class Extension
-	{
-		public static string ToFirtCharUpper(this string input)
-		{
-			if (string.IsNullOrEmpty(input))
-			{
-				throw new ArgumentNullException(nameof(input), "This string argument is null or empty.");
-			}
-
-			return input[0].ToString().ToUpper() + input.Substring(1);
 		}
 	}
 }

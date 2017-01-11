@@ -36,11 +36,11 @@ namespace GitHubBlog
 
 				var encode = Convert.FromBase64String(json["content"].Value<string>());
 				string decode = Encoding.UTF8.GetString(encode, 0, encode.Length);
-				
+
 				var result2 = await RestAPI.PostAsync("https://api.github.com/markdown", JsonConvert.SerializeObject(new
 				{
 					text = Regex.Split(decode, "---")[2]
-				}), RestAPI.Key);
+				}), App.Current.Properties["token"] as string);
 
 				if (result2.IsSuccess)
 				{

@@ -10,13 +10,13 @@ using Newtonsoft.Json;
 
 namespace GitHubBlog
 {
-    public partial class EditPage : ContentPage
-    {
+	public partial class EditPage : ContentPage
+	{
 		bool IsNew; // 새로운 글을 작성하는 모드인가?
 
 		public EditPage(bool isNew)
-        {
-            InitializeComponent();
+		{
+			InitializeComponent();
 
 			IsNew = isNew;
 		}
@@ -30,9 +30,9 @@ namespace GitHubBlog
 		}
 
 		private async void SendToolbarItem_Clicked(object sender, EventArgs e)
-        {
+		{
 			// 새로운 글이면
-			if(IsNew)
+			if (IsNew)
 			{
 				// 제목 및 글 준비
 				// Hello World -> 2017-01-01-hello-world.md
@@ -57,31 +57,13 @@ namespace GitHubBlog
 				});
 
 				// 요청 후 결과 출력
-				var result = await RestAPI.PutAsync(url, json, RestAPI.Key);
+				var result = await RestAPI.PutAsync(url, json, App.Current.Properties["token"] as string);
 				await DisplayAlert("", result.Result, "OK");
 			}
 			else
 			{
 
 			}
-		}
-	}
-
-	static partial class Extension
-	{
-		public static string ToYaml(this Dictionary<string, string> dictionary)
-		{
-			StringBuilder builder = new StringBuilder();
-
-			builder.AppendLine("---");
-			foreach(var item in dictionary)
-			{
-				builder.AppendLine($"{item.Key}: {item.Value}");
-			}
-			builder.AppendLine("---");
-
-			return builder.ToString();
-			// TODO 하세용~
 		}
 	}
 }

@@ -15,10 +15,23 @@ namespace GitHubBlog
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PostEditPage : TabbedPage
 	{
-		public PostEditPage()
+		EditPage EditingPage;
+
+		public PostEditPage(bool isNew)
 		{
 			InitializeComponent();
-			
+
+			EditingPage = new EditPage(isNew);
+			Children.Insert(0, EditingPage);
+
+			if (isNew)
+			{
+				Title = "Post";
+			}
+			else
+			{
+				Title = "Edit";
+			}
 		}
 
 		protected override async void OnCurrentPageChanged()
@@ -31,7 +44,7 @@ namespace GitHubBlog
 				var result = await RestAPI.PostAsync("https://api.github.com/markdown", JsonConvert.SerializeObject(new
 				{
 					text = EditingPage.EditorText
-				}), RestAPI.Key);
+				}), App.Current.Properties["token"] as string);
 
 				if (result.IsSuccess)
 				{
