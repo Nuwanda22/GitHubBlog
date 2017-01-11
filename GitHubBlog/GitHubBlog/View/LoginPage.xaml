@@ -37,7 +37,8 @@
 				<ColumnDefinition Width="4*" />
 			</Grid.ColumnDefinitions>
 
-			<Button BackgroundColor="#444444"
+			<Button x:Name="LoginButton" 
+					BackgroundColor="#444444"
 					Clicked="Button_Clicked"
 					Grid.Column="0"
 					Grid.ColumnSpan="2" />
@@ -60,6 +61,12 @@
 				   VerticalOptions="Center"
 				   Grid.Column="1" />
 		</Grid>
+
+		<ActivityIndicator x:Name="Indicator"
+						   Scale="0.1"
+						   IsVisible="False"
+						   IsRunning="True"
+						   Grid.RowSpan="2"/>
 	</Grid>
 	
 </ContentPage>

@@ -17,6 +17,12 @@ namespace GitHubBlog
 			InitializeComponent();
 		}
 
+		public void Loading()
+		{
+			LoginButton.IsEnabled = false;
+			Indicator.IsVisible = true;
+		}
+
 		private async void Button_Clicked(object sender, EventArgs e)
 		{
 			await Navigation.PushPopupAsync(new LoginPopupPage());

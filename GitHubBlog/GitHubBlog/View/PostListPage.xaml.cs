@@ -23,9 +23,11 @@ namespace GitHubBlog
 		{
 			InitializeComponent();
 
+			Title = (UserName + ".github.io").ToLower();
+
 			PostCollection = new ObservableCollection<Post>();
 			PostListView.ItemsSource = PostCollection;
-
+			
 			CrossConnectivity.Current.ConnectivityChanged += (sender, e) =>
 			{
 				PostListView.IsVisible = e.IsConnected;
@@ -44,8 +46,8 @@ namespace GitHubBlog
 				StatusLabel.IsVisible = false;
 
 				// 글 목록 초기화 후 받아온다.
-				PostCollection.Clear();
-				await PostCollection.Load("Nuwanda22", "nuwanda22.github.io");
+				PostCollection.Clear(); ;
+				await PostCollection.Load(UserName, UserName + ".github.io");
 
 				// 글 목록을 다 받아오면 로딩 창을 숨긴다.
 				Indicator.IsVisible = false;
@@ -60,6 +62,14 @@ namespace GitHubBlog
 				// 로딩 창을 숨긴다.
 				Indicator.IsVisible = false;
 				Indicator.IsRunning = false;
+			}
+		}
+
+		private string UserName
+		{
+			get
+			{
+				return App.Current.Properties["username"] as string;
 			}
 		}
 
@@ -100,7 +110,7 @@ namespace GitHubBlog
 				if (await DisplayAlert("", "Do you really want to delete it?", "Yes", "No"))
 				{
 					// 삭제 요청
-					var result = await RestAPI.DeleteAsync("https://api.github.com/repos/Nuwanda22/nuwanda22.github.io/contents/_posts/" + param.FileName,
+					var result = await RestAPI.DeleteAsync($"https://api.github.com/repos/{UserName}/{UserName}.github.io/contents/_posts/" + param.FileName,
 					JsonConvert.SerializeObject(new
 					{
 						path = "_posts/" + param.FileName,
@@ -127,7 +137,7 @@ namespace GitHubBlog
 		{
 			// 새로 고침시 글 목록 초기화 후 다시 불러옴
 			PostCollection.Clear();
-			await PostCollection.Load("Nuwanda22", "nuwanda22.github.io");
+			await PostCollection.Load(UserName, UserName + ".github.io");
 
 			// 새로 고침 종료
 			PostListView.IsRefreshing = false;

@@ -49,7 +49,6 @@
 		</ListView>
 
 		<ActivityIndicator x:Name="Indicator"
-						   Color="Gray"
 						   Scale="0.1"
 						   IsRunning="True" />
 
