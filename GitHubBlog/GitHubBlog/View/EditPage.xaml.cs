@@ -8,17 +8,21 @@ using Xamarin.Forms;
 
 using Newtonsoft.Json;
 
+using Rg.Plugins.Popup.Extensions;
+
 namespace GitHubBlog
 {
 	public partial class EditPage : ContentPage
 	{
 		bool IsNew; // 새로운 글을 작성하는 모드인가?
+		Dictionary<object, object> YamlDictionary;
 
 		public EditPage(bool isNew)
 		{
 			InitializeComponent();
-
+			
 			IsNew = isNew;
+			YamlDictionary = new Dictionary<object, object> { { "layout","post" }, { "title", "" } };
 		}
 
 		public string EditorText
@@ -64,6 +68,12 @@ namespace GitHubBlog
 			{
 
 			}
+		}
+
+		private async void ToolbarItem_Clicked(object sender, EventArgs e)
+		{
+			YamlDictionary["title"] = TitleEntry.Text;
+			await Navigation.PushPopupAsync(new YamlEditPopupPage(YamlDictionary));
 		}
 	}
 }

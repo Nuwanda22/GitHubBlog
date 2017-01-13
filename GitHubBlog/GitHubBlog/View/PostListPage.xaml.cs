@@ -18,16 +18,15 @@ namespace GitHubBlog
 	{
 		bool isFirstTry = true;
 		ObservableCollection<Post> PostCollection;
+		string UserName;
 
 		public PostListPage()
 		{
 			InitializeComponent();
 
-			Title = (UserName + ".github.io").ToLower();
-
 			PostCollection = new ObservableCollection<Post>();
 			PostListView.ItemsSource = PostCollection;
-			
+
 			CrossConnectivity.Current.ConnectivityChanged += (sender, e) =>
 			{
 				PostListView.IsVisible = e.IsConnected;
@@ -38,6 +37,10 @@ namespace GitHubBlog
 		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
+
+			// 사용자 이름을 구하여 타이틀에 표시
+			UserName = await GetUserName();
+			Title = (UserName + ".github.io").ToLower();
 
 			// 인터넷에 연결되어 있고 첫번째라면
 			if (CrossConnectivity.Current.IsConnected && isFirstTry)
@@ -65,10 +68,25 @@ namespace GitHubBlog
 			}
 		}
 
-		private string UserName
+		private async Task<string> GetUserName()
 		{
-			get
+			// 만약 username이 저장되지 않았다면
+			if (!App.Current.Properties.ContainsKey("username"))
 			{
+				// 토큰을 통해 사용자 이름 요청 후
+				var usernameResult = await RestAPI.GetAsync($"https://api.github.com/user", token: App.Current.Properties["token"] as string);
+				if (usernameResult.IsSuccess)
+				{
+					// 성공 시 사용자 이름 저장 및 리턴
+					string username = JObject.Parse(usernameResult.Result)["login"].Value<string>();
+					App.Current.Properties.Add("username", username);
+					return username;
+				}
+				else { return null; }
+			}
+			else
+			{
+				// 저장되어 있는 경우 바로 리턴
 				return App.Current.Properties["username"] as string;
 			}
 		}
@@ -141,6 +159,20 @@ namespace GitHubBlog
 
 			// 새로 고침 종료
 			PostListView.IsRefreshing = false;
+		}
+
+		private async void ToolbarItem_Clicked(object sender, EventArgs e)
+		{
+			// 로그아웃 여부를 다시 확인하고
+			if(await DisplayAlert("", "Are you sure you want to sign out?", "OK", "Cancel"))
+			{
+				// 원하는 경우 저장된 토큰 및 사용자 이름 삭제 후
+				App.Current.Properties.Remove("token");
+				App.Current.Properties.Remove("username");
+
+				// 로그인 페이지를 띄움
+				App.Current.MainPage = new LoginPage(true);
+			}
 		}
 	}
 

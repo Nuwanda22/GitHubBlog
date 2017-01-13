@@ -12,20 +12,24 @@ namespace GitHubBlog
 {
 	public partial class LoginPage : ContentPage
 	{
-		public LoginPage()
+		bool IsAfterLogout;
+
+		public LoginPage(bool isAfterLogout)
 		{
 			InitializeComponent();
+
+			IsAfterLogout = isAfterLogout;
 		}
 
-		public void Loading()
+		public void Loading(bool loading)
 		{
-			LoginButton.IsEnabled = false;
-			Indicator.IsVisible = true;
+			ButtonGrid.IsEnabled = !loading;
+			Indicator.IsVisible = loading;
 		}
 
 		private async void Button_Clicked(object sender, EventArgs e)
 		{
-			await Navigation.PushPopupAsync(new LoginPopupPage());
+			await Navigation.PushPopupAsync(new LoginPopupPage(IsAfterLogout));
 		}
 	}
 }

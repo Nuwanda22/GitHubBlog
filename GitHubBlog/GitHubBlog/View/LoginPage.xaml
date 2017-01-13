@@ -28,7 +28,7 @@
 			</Label.FormattedText>
 		</Label>
 
-		<Grid HeightRequest="65"
+		<Grid x:Name="ButtonGrid" HeightRequest="65"
 			  Margin="20,0"
 			  VerticalOptions="Start"
 			  Grid.Row="1">
@@ -37,8 +37,7 @@
 				<ColumnDefinition Width="4*" />
 			</Grid.ColumnDefinitions>
 
-			<Button x:Name="LoginButton" 
-					BackgroundColor="#444444"
+			<Button BackgroundColor="#444444"
 					Clicked="Button_Clicked"
 					Grid.Column="0"
 					Grid.ColumnSpan="2" />

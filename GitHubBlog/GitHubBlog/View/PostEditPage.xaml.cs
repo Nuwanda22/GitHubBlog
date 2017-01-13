@@ -23,6 +23,7 @@ namespace GitHubBlog
 
 			EditingPage = new EditPage(isNew);
 			Children.Insert(0, EditingPage);
+			CurrentPage = EditingPage;
 
 			if (isNew)
 			{
@@ -34,22 +35,15 @@ namespace GitHubBlog
 			}
 		}
 
-		protected override async void OnCurrentPageChanged()
+		protected override void OnCurrentPageChanged()
 		{
 			base.OnCurrentPageChanged();
 
-			if(CurrentPage.Title == "Priview")
+			if (EditingPage == null) return;
+			if (CurrentPage.Title == "Preview")
 			{
-				// 바뀐 글을 가져와 API를 요청함
-				var result = await RestAPI.PostAsync("https://api.github.com/markdown", JsonConvert.SerializeObject(new
-				{
-					text = EditingPage.EditorText
-				}), App.Current.Properties["token"] as string);
-
-				if (result.IsSuccess)
-				{
-					Previewer.Source = new HtmlWebViewSource { Html = result.Result };
-				}
+				// TODO: async + ActivityIndicator
+				Previewer.Source = new HtmlWebViewSource { Html = CommonMark.CommonMarkConverter.Convert(EditingPage.EditorText) };
 			}
 		}
 

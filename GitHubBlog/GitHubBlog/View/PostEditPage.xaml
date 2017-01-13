@@ -4,11 +4,12 @@
 			x:Class="GitHubBlog.PostEditPage"
 			Title="TabbedPage">
 
-	<ContentPage Title="Priview">
+	<ContentPage Title="Preview">
 		<Grid>
 			<WebView x:Name="Previewer"
+					 HeightRequest="500"
 					 VerticalOptions="FillAndExpand" />
 		</Grid>
 	</ContentPage>
-	
+
 </TabbedPage>

@@ -4,6 +4,8 @@
 			 x:Class="GitHubBlog.PostListPage">
 
 	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Sign out"
+					 Clicked="ToolbarItem_Clicked" />
 		<ToolbarItem Text="Post"
 					 Clicked="PostToolbarItem_Clicked" />
 	</ContentPage.ToolbarItems>
