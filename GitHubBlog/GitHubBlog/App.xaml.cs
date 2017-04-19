@@ -5,8 +5,6 @@ using System.Text;
 
 using Xamarin.Forms;
 
-using Newtonsoft.Json.Linq;
-
 namespace GitHubBlog
 {
 	public partial class App : Application
