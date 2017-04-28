@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using Xamarin.Forms;
-
 using Plugin.Connectivity;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace GitHubBlog
+using GitHubBlog.Models;
+using GitHubBlog.Libraries;
+
+namespace GitHubBlog.Pages
 {
 	public partial class PostListPage : ContentPage
 	{

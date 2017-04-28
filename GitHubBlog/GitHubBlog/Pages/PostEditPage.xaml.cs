@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 
 using Newtonsoft.Json;
 
-namespace GitHubBlog
+namespace GitHubBlog.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PostEditPage : TabbedPage

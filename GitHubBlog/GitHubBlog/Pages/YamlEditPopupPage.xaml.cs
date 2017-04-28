@@ -10,7 +10,7 @@ using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 
 
-namespace GitHubBlog
+namespace GitHubBlog.Pages
 {
 	public partial class YamlEditPopupPage : PopupPage
 	{

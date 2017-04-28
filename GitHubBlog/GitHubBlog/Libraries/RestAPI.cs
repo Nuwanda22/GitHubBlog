@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace GitHubBlog
+using GitHubBlog.Models;
+
+namespace GitHubBlog.Libraries
 {
 	static class RestAPI
 	{

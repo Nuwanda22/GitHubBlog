@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 using Rg.Plugins.Popup.Extensions;
 
-namespace GitHubBlog
+namespace GitHubBlog.Pages
 {
 	public partial class LoginPage : ContentPage
 	{

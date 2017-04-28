@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
 using Newtonsoft.Json;
-
 using Rg.Plugins.Popup.Extensions;
 
-namespace GitHubBlog
+using GitHubBlog.Models;
+using GitHubBlog.Libraries;
+
+namespace GitHubBlog.Pages
 {
 	public partial class EditPage : ContentPage
 	{

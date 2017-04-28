@@ -6,11 +6,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace GitHubBlog
+using GitHubBlog.Models;
+using GitHubBlog.Libraries;
+
+namespace GitHubBlog.Pages
 {
 	public partial class PostPage : ContentPage
 	{

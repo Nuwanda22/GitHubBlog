@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Extensions;
-
 using Newtonsoft.Json.Linq;
 
-namespace GitHubBlog
+using GitHubBlog.Libraries;
+
+namespace GitHubBlog.Pages
 {
 	public partial class LoginPopupPage : PopupPage
 	{

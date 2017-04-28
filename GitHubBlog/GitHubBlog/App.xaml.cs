@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
+using Plugin.Settings;
+
+using GitHubBlog.Pages;
 
 namespace GitHubBlog
 {
@@ -14,7 +17,7 @@ namespace GitHubBlog
 			InitializeComponent();
             
 			// 이전에 로그인했다면 메인 페이지를 띄운다.
-			if (Properties.ContainsKey("token"))
+			if (Properties.ContainsKey("token")/*CrossSettings.Current.Contains("token")*/)
 			{
 				MainPage = new NavigationPage(new PostListPage());
 			}

@@ -7,7 +7,7 @@ using System.IO;
 
 using YamlDotNet.Serialization;
 
-namespace GitHubBlog
+namespace GitHubBlog.Libraries
 {
 	static class Yaml
 	{
