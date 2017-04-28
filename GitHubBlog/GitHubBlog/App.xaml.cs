@@ -9,14 +9,10 @@ namespace GitHubBlog
 {
 	public partial class App : Application
 	{
-		static App current;
-
 		public App()
 		{
 			InitializeComponent();
-
-			current = this;
-
+            
 			// 이전에 로그인했다면 메인 페이지를 띄운다.
 			if (Properties.ContainsKey("token"))
 			{
@@ -26,14 +22,6 @@ namespace GitHubBlog
 			else
 			{
 				MainPage = new LoginPage(false);
-			}
-		}
-
-		public static new App Current
-		{
-			get
-			{
-				return current;
 			}
 		}
 	}

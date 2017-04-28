@@ -3,8 +3,8 @@
     "Microsoft.Bcl.Build": "1.0.14",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Rg.Plugins.Popup": "1.0.4",
-    "Xam.Plugin.Connectivity": "2.2.12",
-    "Xamarin.Forms": "2.0.0.6482"
+    "Xam.Plugin.Connectivity": "2.3.0",
+    "Xamarin.Forms": "2.3.3.193"
   },
   "frameworks": {
     "uap10.0": {}
