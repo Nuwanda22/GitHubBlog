@@ -31,11 +31,11 @@ namespace GitHubBlog.Helpers
     {
       get
       {
-        return AppSettings.GetValueOrDefault<string>(SettingsKey, SettingsDefault);
+        return AppSettings.GetValueOrDefault(SettingsKey, SettingsDefault);
       }
       set
       {
-        AppSettings.AddOrUpdateValue<string>(SettingsKey, value);
+        AppSettings.AddOrUpdateValue(SettingsKey, value);
       }
     }
 
